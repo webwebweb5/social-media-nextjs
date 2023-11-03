@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validations/user";
 import * as z from "zod";
 import Image from "next/image";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 
 interface Props {
@@ -32,13 +32,15 @@ interface Props {
 }
 
 const AccountProfile = ({ user, btnTitle }: Props) => {
+  const [files, setFiles] = useState<File[]>([]);
+
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user.image || "",
-      name: user.name || "",
-      username: user.username || "",
-      bio: user.bio || "",
+      profile_photo: user?.image || "",
+      name: user?.name || "",
+      username: user?.username || "",
+      bio: user?.bio || "",
     },
   });
 
@@ -48,21 +50,22 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   ) => {
     e.preventDefault();
 
-    // const fileReader = new FileReader();
+    const fileReader = new FileReader();
 
-    // if (e.target.files && e.target.files.length > 0) {
-    //   const file = e.target.files[0];
-    //   setFiles(Array.from(e.target.files));
+    // NOTE: e.target.files has to use this html type <HTMLInputElement>
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFiles(Array.from(e.target.files));
 
-    //   if (!file.type.includes("image")) return;
+      if (!file.type.includes("image")) return;
 
-    //   fileReader.onload = async (event) => {
-    //     const imageDataUrl = event.target?.result?.toString() || "";
-    //     fieldChange(imageDataUrl);
-    //   };
+      fileReader.onload = async (event) => {
+        const imageDataUrl = event.target?.result?.toString() || "";
+        fieldChange(imageDataUrl);
+      };
 
-    //   fileReader.readAsDataURL(file);
-    // }
+      fileReader.readAsDataURL(file);
+    }
   };
 
   function onSubmit(values: z.infer<typeof UserValidation>) {
