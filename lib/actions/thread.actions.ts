@@ -46,7 +46,7 @@ export async function fetchPost(pageNumber = 1, pageSize = 20) {
 
   // fetch the post that have on parents (top-level threads...)
   const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-    .sort({ createAt: "desc" })
+    .sort({ createdAt: "desc" })
     .skip(skipAmount)
     .limit(pageSize)
     .populate({ path: "author", model: User })
