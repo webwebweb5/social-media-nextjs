@@ -73,7 +73,7 @@ function ThreadCard({
 
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-            <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
+            <div className={`${isComment && "mb-8"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
                 <Image
                   src="/assets/heart-gray.svg"
@@ -114,6 +114,14 @@ function ThreadCard({
                   </p>
                 </Link>
               )}
+
+              {isComment && !community && (
+                <div className="flex items-center">
+                  <p className="text-subtle-medium text-gray-1">
+                    {formatDateString(createdAt)}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -126,6 +134,14 @@ function ThreadCard({
           isComment={isComment}
         /> */}
       </div>
+
+      {!isComment && !community && (
+        <div className="mt-5 flex items-center">
+          <p className="text-subtle-medium text-gray-1">
+            {formatDateString(createdAt)}
+          </p>
+        </div>
+      )}
 
       {!isComment && comments.length > 0 && (
         <div className="ml-1 mt-3 flex items-center gap-2">
