@@ -7,6 +7,10 @@ import CommunityCard from "@/components/cards/CommunityCard";
 
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchCommunities } from "@/lib/actions/community.actions";
+import { Button } from "@/components/ui/button";
+
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 async function Page({
   searchParams,
@@ -27,7 +31,15 @@ async function Page({
 
   return (
     <>
-      <h1 className="head-text">Communities</h1>
+      <div className="flex justify-between">
+        <h1 className="head-text">Communities</h1>
+        <Button variant={"default"} asChild>
+          <Link href="/create-organization">
+            <Plus size={20} className="mr-2" />
+            Create
+          </Link>
+        </Button>
+      </div>
 
       <div className="mt-5">
         <Searchbar routeType="communities" />
